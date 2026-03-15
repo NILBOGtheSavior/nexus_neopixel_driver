@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2 -Isrc
-SRCS = src/main.c src/spi.c src/ws2812b.c src/matrix.c src/controllers/trail.c src/controllers/wave.c
+SRCS = src/main.c src/spi.c src/ws2812b.c src/matrix.c src/controllers/trail.c src/controllers/wave.c src/controllers/clock.c
 OBJS = $(patsubst src/%.c, bin/%.o, $(SRCS))
 TARGET = bin/matrix
 
