@@ -1,6 +1,7 @@
 #include "controllers/controller.h"
 #include "controllers/trail.h"
 #include "controllers/wave.h"
+#include "controllers/clock.h"
 #include "matrix.h"
 #include "spi.h"
 #include <pthread.h>
@@ -13,14 +14,20 @@ static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 void *repl(void *arg) {
   char input[64];
   while (1) {
-    printf("[1]Wave\n> ");
+    printf("[1] Wave\n[2] Clock\n> ");
     fflush(stdout);
     fgets(input, sizeof(input), stdin);
 
     pthread_mutex_lock(&lock);
-    if (input[0] == '1') {
-      active = get_wave_controller();
-      active->init();
+    switch (input[0]) {
+        case '1':
+            active = get_wave_controller();
+            active->init();
+            break;
+        case '2':
+            active = get_clock_controller();
+            active->init();
+            break;
     }
     pthread_mutex_unlock(&lock);
   }

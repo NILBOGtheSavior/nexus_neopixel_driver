@@ -1,16 +1,17 @@
 #include "clock.h"
 
-static const uint8_t font[10][8] = {
-    {0x00, 0x39, 0x46, 0x4A, 0x52, 0x62, 0x39, 0x00}, // 0
-    {},                                               // 1
-    {},                                               // 2
-    {},                                               // 3
-    {},                                               // 4
-    {},                                               // 5
-    {},                                               // 6
-    {},                                               // 7
-    {},                                               // 8
-    {}                                                // 9
+static const uint8_t font[11][8] = {
+    {0x00, 0x1C, 0x26, 0x2A, 0x2A, 0x32, 0x1C, 0x00}, // 0
+    {0x00, 0x08, 0x18, 0x08, 0x08, 0x08, 0x1C, 0x00}, // 1
+    {0x00, 0x1C, 0x22, 0x02, 0x0C, 0x10, 0x3E, 0x00}, // 2
+    {0x00, 0x1C, 0x02, 0x0C, 0x02, 0x22, 0x1C, 0x00}, // 3
+    {0x00, 0x0C, 0x14, 0x14, 0x24, 0x3E, 0x04, 0x00}, // 4
+    {0x00, 0x3E, 0x20, 0x3C, 0x02, 0x22, 0x1C, 0x00}, // 5
+    {0x00, 0x1E, 0x20, 0x3C, 0x22, 0x22, 0x1C, 0x00}, // 6
+    {0x00, 0x3E, 0x02, 0x04, 0x08, 0x10, 0x10, 0x00}, // 7
+    {0x00, 0x1C, 0x22, 0x1C, 0x22, 0x22, 0x1C, 0x00}, // 8
+    {0x00, 0x1C, 0x22, 0x1E, 0x02, 0x22, 0x1C, 0x00}, // 9
+    {0x00, 0x00, 0x08, 0x08, 0x00, 0x08, 0x08, 0x00}  // :
 };
 
 static void draw_digit(int digit, int start_x, uint8_t r, uint8_t g,
@@ -26,13 +27,21 @@ static void draw_digit(int digit, int start_x, uint8_t r, uint8_t g,
   }
 }
 
-static void clock_init() {}
+static void clock_init() {
+    clear();
+    render();
+}
 
 static void clock_update() {
-  draw_digit(0, 0, 255, 255, 255);
-  draw_digit(0, 7, 255, 255, 255);
-  draw_digit(0, 17, 255, 255, 255);
-  draw_digit(0, 24, 255, 255, 255);
+    time_t t = time(NULL);
+    struct tm *tm = localtime(&t);
+    int hours = tm->tm_hour;
+    int minutes = tm->tm_min;
+    draw_digit(hours / 10, 2, 5, 5, 5);
+    draw_digit(hours % 10, 8, 5, 5, 5);
+    draw_digit(10, 13, 5, 5, 5);
+    draw_digit(minutes / 10, 18, 5, 5, 5);
+    draw_digit(minutes % 10, 24, 5, 5, 5);
 }
 
 static controller_t clock_controller = {.init = clock_init,

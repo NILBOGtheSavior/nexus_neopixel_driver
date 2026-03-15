@@ -3,6 +3,12 @@
 static pixel_t framebuffer[NUM_LEDS];
 static uint8_t buffer[TX_LEN];
 
+void clear() {
+    for (int x = 0; x < WIDTH; x++)
+        for (int y = 0; y < HEIGHT; y++)
+            set_pixel(x, y, 0, 0, 0);
+}
+
 int xy_to_index(int x, int y) {
     int index;
     if (x % 2) {
