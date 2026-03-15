@@ -1,11 +1,12 @@
+#include "controllers/clock.h"
 #include "controllers/controller.h"
 #include "controllers/trail.h"
 #include "controllers/wave.h"
-#include "controllers/clock.h"
 #include "matrix.h"
 #include "spi.h"
 #include <pthread.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 static controller_t *active;
@@ -20,26 +21,30 @@ void *repl(void *arg) {
 
     pthread_mutex_lock(&lock);
     switch (input[0]) {
-        case '1':
-            active = get_wave_controller();
-            active->init();
-            break;
-        case '2':
-            active = get_clock_controller();
-            active->init();
-            break;
+    case '1':
+      active = get_wave_controller();
+      active->init();
+      break;
+    case '2':
+      active = get_clock_controller();
+      active->init();
+      break;
     }
     pthread_mutex_unlock(&lock);
   }
   return NULL;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+  if (argc > 1 && strcmp(argv[1], "--clock") == 0) {
+    active = get_clock_controller();
+  } else {
+    active = get_default_controller();
+  }
+
   pthread_t t;
   pthread_create(&t, NULL, repl, NULL);
   initialize_spi();
-
-  active = get_default_controller();
   active->init();
 
   while (1) {
