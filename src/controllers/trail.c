@@ -23,11 +23,9 @@ static void trail_update() {
   for (int i = 0; i < NUM_LEDS; i++) {
     int dist = head - i;
     if (dist == 0) {
-      // head pixel, full brightness
       set_pixel(i % WIDTH, i / WIDTH, TRAIL_COLOR_R, TRAIL_COLOR_G,
                 TRAIL_COLOR_B);
     } else if (dist > 0 && dist <= TRAIL_LENGTH) {
-      // trail, dimming with distance
       uint8_t fade = 255 - (dist * (255 / TRAIL_LENGTH));
       set_pixel(i % WIDTH, i / WIDTH, (TRAIL_COLOR_R * fade) / 255,
                 (TRAIL_COLOR_G * fade) / 255, (TRAIL_COLOR_B * fade) / 255);
@@ -37,7 +35,7 @@ static void trail_update() {
   }
 
   head++;
-  if (head >= NUM_LEDS + TRAIL_LENGTH)
+  if (head >= NUM_LEDS + TRAIL_LENGTH + 1)
     done = 1;
 }
 
