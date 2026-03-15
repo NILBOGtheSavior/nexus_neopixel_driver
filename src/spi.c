@@ -1,11 +1,4 @@
-#include <fcntl.h>
-#include <linux/spi/spidev.h>
-#include <linux/types.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
+#include "spi.h"
 
 static const char *device = "/dev/spidev0.0";
 static uint32_t mode = SPI_MODE_0;

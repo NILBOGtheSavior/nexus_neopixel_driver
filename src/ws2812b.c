@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include "ws2812b.h"
 
 void encode_byte(uint8_t in, uint8_t *out) {
   uint32_t res = 0;
