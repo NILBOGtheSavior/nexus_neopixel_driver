@@ -13,7 +13,7 @@ static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 void *repl(void *arg) {
   char input[64];
   while (1) {
-    printf("> ");
+    printf("[1]Wave\n> ");
     fflush(stdout);
     fgets(input, sizeof(input), stdin);
 
