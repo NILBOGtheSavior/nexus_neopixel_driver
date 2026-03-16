@@ -40,10 +40,11 @@ int main(int argc, char *argv[]) {
     active = get_clock_controller();
   } else {
     active = get_default_controller();
+    pthread_t t;
+    pthread_create(&t, NULL, repl, NULL);
   }
 
-  pthread_t t;
-  pthread_create(&t, NULL, repl, NULL);
+  
   initialize_spi();
   active->init();
 
